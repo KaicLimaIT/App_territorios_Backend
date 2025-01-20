@@ -11,12 +11,22 @@ const Grupo = db.sequelize.define('Grupo', {
         NOME_GRUPO: {
             type: db.Sequelize.STRING(9),
             allowNull: false,
+            unique: true,
         },
     },{
         tableName: 'TB_GRUPO',
         timestamps: true,
     });
 
+module.exports = Grupo;
+
+
+
+// **AVISO IMPORTANTE**: O código abaixo sobrescreve a tabela, use apenas para testes!
+// Não descomente sem necessidade, pois ele DESTRÓI a tabela e recria.
+//Grupo.sync({ force: true });
+
+/*
     async function adicionarGrupos() {
         try {
           const grupos = await Grupo.bulkCreate([
@@ -35,11 +45,4 @@ const Grupo = db.sequelize.define('Grupo', {
       }
 
       adicionarGrupos();
-
-module.exports = Grupo;
-
-
-
-// **AVISO IMPORTANTE**: O código abaixo sobrescreve a tabela, use apenas para testes!
-// Não descomente sem necessidade, pois ele DESTRÓI a tabela e recria.
-//Grupo.sync({ force: true });
+*/

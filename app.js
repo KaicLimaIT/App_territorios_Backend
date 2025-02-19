@@ -14,15 +14,18 @@
 
 
     //Config
+    
         //BodyParser
             app.use(bodyParser.urlencoded({extended:false}));
             app.use(bodyParser.json());
 
     //Rotas
+
         //Rota Principal do servidor
             app.get('/', (req,res) => {
                 res.send('Menu');
             });
+
         //Rota de Login
             app.post('/Login',
                 [

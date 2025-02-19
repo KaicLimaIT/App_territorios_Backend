@@ -2,15 +2,19 @@
     const express = require("express");
     const router = express.Router();
     const Grupo = require('../Models/grupo');
+    const GrupoTerritorio = require('../Models/grupoTerritorio');
     const Usuario = require('../Models/usuario');
     const bcrypt = require('bcryptjs');
     const { body, validationResult } = require('express-validator');
+const { error } = require("console");
 
 //Rotas
     //Menu
         router.get('/', (req,res) =>{
             res.send('Pagina inicial do adm');
         });
+
+
 
     //Buscar Grupos
         router.get('/BuscarGrupos', (req,res) => {
@@ -34,6 +38,9 @@
                 });
             });
         });
+
+
+
     //Cadastro de usuarios
         router.post('/CadUser',
             [
@@ -96,9 +103,37 @@
             });
         });
 
+
+
     //Distribuir Territorios
         router.get('/DestribuirTerritorio', (req,res) => {
             res.send('Página de Distribuição de Território');
         });
+
+
+
+    //Buscar Grupo de territorios
+        router.post('/BuscarGrupoTerritorios', (req,res) =>{
+            GrupoTerritorio.findAll({})
+            .then((grupos) => {
+                if(grupos.length > 0)
+                    {
+                        res.status(201).send({
+                            mensagem: 'Grupos buscados com sucesso!',
+                            dados: grupos,
+                        })
+                    }
+                else{
+                    res.status(404).send({
+                        mensagem: 'Nenhum grupo encontrado!'
+                    })
+                }
+            })
+            .catch((error) =>{
+                res.status(500).send({
+                    mensagem: 'Erro do servidor!'
+                })
+            })
+        })
 
 module.exports = router;

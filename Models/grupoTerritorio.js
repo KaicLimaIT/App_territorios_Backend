@@ -1,35 +1,36 @@
-const db = require('./DB');
+const db = require("./DB");
 
-const GrupoTerritorio = db.sequelize.define('GrupoTerritorio', {
+const GrupoTerritorio = db.sequelize.define("GrupoTerritorio", {
     ID: {
-      type: db.Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
+        type: db.Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
     },
-  }, {
-    tableName: 'TB_GRUPO_TERRITORIO',
-    timestamps: true,  // Adicionando timestamps
-  });
 
-module.exports = GrupoTerritorio;
-
-
-
-// **AVISO IMPORTANTE**: O código abaixo sobrescreve a tabela, use apenas para testes!
-// Não descomente sem necessidade, pois ele DESTRÓI a tabela e recria.
-//GrupoTerritorio.sync({ force:true})
+    GRUPO_TERRITORIO: {
+        type: db.Sequelize.INTEGER,
+        allowNull: false,
+        unique: true,
+    },
+},{
+    tableName: "TB_GRUPO_TERRITORIO",
+    timestamps: true,
+});
 
 /*
-async function InserirNaTabela() {
-  try {
-    for (let i = 0; i < 18; i++) {
-      await GrupoTerritorio.create({});
+async function adicionarGrupos() {
+    try {
+        for (let i = 1; i <= 18; i++) {
+            await GrupoTerritorio.create({ GRUPO_TERRITORIO: i });
+        }   
+        console.log("18 grupos inseridos com sucesso!");
+    } catch (error) {
+        console.error("Erro ao inserir grupos:", error);
     }
-    console.log('Registros inseridos com sucesso!');
-  } catch (error) {
-    console.error('Erro ao inserir registros:', error);
-  }
 }
 
-InserirNaTabela();
-*/  
+adicionarGrupos();
+
+*/
+module.exports = GrupoTerritorio;
+

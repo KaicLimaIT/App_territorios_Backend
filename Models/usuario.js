@@ -1,10 +1,10 @@
 const db = require('./DB');
-const bcrypt = require("bcryptjs");
+//const bcrypt = require("bcryptjs");
 require('dotenv');
 
 // Definição do modelo de Usuario
 const Usuario = db.sequelize.define('Usuario', {
-    ID: {
+    ID_USUARIO: {
         type: db.Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
@@ -14,7 +14,7 @@ const Usuario = db.sequelize.define('Usuario', {
         allowNull: false,
     },
     SENHA_USUARIO: {
-        type: db.Sequelize.STRING(255), // Aumentei para suportar senhas mais longas
+        type: db.Sequelize.STRING(255),
         allowNull: false,
     },
     STATUS_USUARIO: {
@@ -22,12 +22,12 @@ const Usuario = db.sequelize.define('Usuario', {
         defaultValue: 'USUARIO',
         allowNull: false,
     },
-    ID_GRUPO: { // Certifique-se de ter esse campo na tabela
+    ID_GRUPO: { 
         type: db.Sequelize.INTEGER,
-        allowNull: false,  // Pode ser NULL se o usuário não for associado a nenhum grupo
+        allowNull: false, 
         references: {
-            model: 'TB_GRUPO', // Tabela do grupo
-            key: 'ID',         // Chave primária da tabela de grupos
+            model: 'TB_GRUPO', 
+            key: 'ID',         
         },
     },
 }, {
@@ -43,8 +43,13 @@ Usuario.associate = (models) => {
     });
 };
 
+
 // Exporta o modelo
 module.exports = Usuario;
+
+
+
+
 
 // **AVISO IMPORTANTE**: O código abaixo sobrescreve a tabela, use apenas para testes!
 //Usuario.sync({ force: true });

@@ -10,11 +10,19 @@ const Ruas = db.sequelize.define("Ruas", {
     NOME_RUA:{
         type: db.Sequelize.STRING,
         allowNull: false,
+        unique: true,
     },
 },{
     tableName: "TB_RUAS",
     timestamps: true,
 });
+
+Ruas.associate = (models) => {
+    Ruas.belongsToMany(models.Territorio, {
+        through: models.TerritorioRuas,
+        foreignKey: "ID_RUA"
+    });
+};
 
 Ruas.sync({alter:true});
 

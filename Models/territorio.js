@@ -22,7 +22,7 @@ const Territorio = db.sequelize.define('Territorio', {
         type: db.Sequelize.INTEGER,
         allowNull: false,
         references: {
-            model: require("./grupoTerritorio"), // Importa o modelo Sequelize corretamente
+            model: 'TB_GRUPO_TERRITORIO', // Importa o modelo Sequelize corretamente
             key: "ID",
         },
     },
@@ -30,17 +30,47 @@ const Territorio = db.sequelize.define('Territorio', {
 },{
     tableName: "TB_TERRITORIO",
     timestamps: true,
+
+    indexes: [
+        {
+            unique:true,
+            fields: ['ID', 'LADO_TERRITORIO']
+        }
+    ]
 });
 
 Territorio.associate = (models) => {
     Territorio.belongsTo(models.GrupoTerritorio, {
         foreignKey: "GRUPO_TERRITORIO",
         as: "grupo",
+
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+    });
+
+    Territorio.belongsToMany(models.Rua, {
+        through: models.TerritorioRua,
+        foreignKey: "ID_TERRITORIO",
+
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+    });
+
+    Territorio.belongsToMany(models.Casa, {
+        through: models.TerritorioCasa,
+        foreignKey: "ID_TERRITORIO",
+
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
     });
 };
 
 
-Territorio.sync({ alter: true });
+
+module.exports = Territorio;
+
+
+//Territorio.sync({ alter: true });
 
 /*
 async function criarTerritorios() {
@@ -62,5 +92,3 @@ async function criarTerritorios() {
 
 criarTerritorios();
 */
-
-module.exports = Territorio;

@@ -43,6 +43,10 @@ const Casas = db.sequelize.define('Casas',{
         foreignKey: 'ID_RUA',
         as: 'Rua',
         });
+
+        Casa.belongsTo(models.Rua, {
+            foreignKey: "ID_RUA"
+        });
     };
 
 
@@ -51,7 +55,7 @@ const Casas = db.sequelize.define('Casas',{
 
 // **AVISO IMPORTANTE**: O código abaixo sobrescreve a tabela, use apenas para testes!
 // Não descomente sem necessidade, pois ele DESTRÓI a tabela e recria.
-//Casas.sync({alter:true});
+Casas.sync({alter:true});
 
 
 /*

@@ -1,12 +1,16 @@
 //Modulos
     const express = require("express");
     const router = express.Router();
-    const Grupo = require('../Models/grupo');
-    const GrupoTerritorio = require('../Models/grupoTerritorio');
-    const Usuario = require('../Models/usuario');
     const bcrypt = require('bcryptjs');
     const { body, validationResult } = require('express-validator');
-const { error } = require("console");
+
+    // Models
+        const Grupo = require('../Models/grupo');
+        const Usuario = require('../Models/usuario');
+        const GrupoTerritorio = require('../Models/grupoTerritorio');
+        const Ruas = require('../Models/ruas');
+  
+
 
 //Rotas
     //Menu
@@ -61,12 +65,6 @@ const { error } = require("console");
             
             const { nome, senha, grupo, status } = req.body;
 
-            if (!nome || !senha || !grupo || !status) {
-                return res.status(400).send({
-                    mensagem: "Todos os campos precisam estar preenchidos!" + nome + senha + grupo + status
-                });
-            }
-
             bcrypt.genSalt(8, (erro, salt) => {
                 if (erro) {
                     return res.status(400).send({
@@ -89,7 +87,7 @@ const { error } = require("console");
                         STATUS_USUARIO: status,
                     })
                     .then(() => {
-                        res.status(201).send({
+                        res.status(200).send({
                             mensagem: "Usuário criado com sucesso!"
                         });
                     })
@@ -134,6 +132,44 @@ const { error } = require("console");
                     mensagem: 'Erro do servidor!'
                 })
             })
+        });
+
+    //Adicionar Territorios
+        router.post('/AdicionarTerritorio',
+            [
+                body('grupoTerritorio').exists().notEmpty().isInt().withMessage('O campo Grupo Territorio é obrigatório!'),
+                body('').exists().notEmpty(),
+            ],
+            (req, res) => {
+            
+        });
+
+    // Adicionar Ruas
+        router.post('/AdicionarRuas', [
+            body('nomeRua').exists().notEmpty().isString().withMessage('O campo Rua é obrigatorio')
+        ],
+        async (req,res) => {
+            const erros = validationResult(req);
+
+            if(!erros.isEmpty()) {
+                return res.status(400).json({ mensagem:erros.array() })
+            }
+
+            const { nomeRua } = req.body;
+
+            Ruas.create({
+                NOME_RUA: nomeRua,
+            }).then(() => {
+                res.status(201).send({
+                    mensagem: "Rua criado com sucesso!"
+                });
+            })
+            .catch((error) => {
+                res.status(500).send({
+                    mensagem: "Erro ao cadastrar Rua!",
+                    erro: error.message
+                });
+            });
         })
 
 module.exports = router;

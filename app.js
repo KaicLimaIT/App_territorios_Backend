@@ -1,31 +1,26 @@
     //Modulos
-        const express = require('express');
+        const express = require('express'); //Express
         const app = express(); //Servidor
-        const bodyParser = require('body-parser');
-        const Usuario = require('./Models/usuario');
-        const routeAdm = require('./Routes/ADM');
-        const routeAnciaoServo = require('./Routes/Anciao_Servo');
-        const routeUsuario = require('./Routes/Usuario');
-        const bcrypt = require('bcryptjs');
-        const { body, validationResult } = require('express-validator');
-
-        
+        const bodyParser = require('body-parser');// Pegar arquivos JSON
+        const Usuario = require('./Models/usuario');//Model usuario
+        const routeAdm = require('./Routes/ADM');//Rota
+        const routeDirigente = require('./Routes/Dirigente');//Rota
+        const routeUsuario = require('./Routes/Usuario');//Rota
+        const bcrypt = require('bcryptjs');//Criptografar senhas
+        const { body, validationResult } = require('express-validator');//Valida arquivos JSON
 
 
 
     //Config
-    
         //BodyParser
             app.use(bodyParser.urlencoded({extended:false}));
             app.use(bodyParser.json());
 
     //Rotas
-
         //Rota Principal do servidor
             app.get('/', (req,res) => {
                 res.send('Menu');
             });
-
         //Rota de Login
             app.post('/Login',
                 [
@@ -34,13 +29,13 @@
                 ],
                 async (req, res) => {
 
-                const erros = validationResult(req);
+                const erros = validationResult(req); //Verifica erros
 
                 if(!erros.isEmpty()){
                     return res.status(400).json({ mensagem:erros.array() })
                 }
 
-                const {usuario,senha} = req.body;
+                const {usuario,senha} = req.body; //Pega JSON
                 
                 Usuario.findAll({
                     where: {
@@ -81,9 +76,18 @@
         
         app.use('/usuario', routeUsuario);
 
-        app.use('/AnciaoServo', routeAnciaoServo)
+        app.use('/Digirente', routeDirigente)
 
         app.use('/ADM', routeAdm);
+
+
+
+
+
+
+
+
+
 
     //Inicialização do server
         const Port = process.env.SERVER_PORT || 3000;

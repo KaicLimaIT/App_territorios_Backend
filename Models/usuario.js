@@ -11,6 +11,7 @@ const Usuario = db.sequelize.define('Usuario', {
     },
     NOME_USUARIO: {
         type: db.Sequelize.STRING(50),
+        unique: true,
         allowNull: false,
     },
     SENHA_USUARIO: {
@@ -51,8 +52,7 @@ module.exports = Usuario;
 
 
 
-// **AVISO IMPORTANTE**: O código abaixo sobrescreve a tabela, use apenas para testes!
-//Usuario.sync({ force: true });
+//    Não descomente esse codigo sem um bom motivo          Usuario.sync({ force: true });
 
 /*
 async function criarAdministrador() {
@@ -68,7 +68,8 @@ async function criarAdministrador() {
         console.log('Erro ao criar ADM:', erro.message);
     }
 }
+*/
 
 // Chama a função
 criarAdministrador();
-*/
+

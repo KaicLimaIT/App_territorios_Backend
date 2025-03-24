@@ -24,13 +24,13 @@ Ruas.associate = (models) => {
     });
 };
 
-Ruas.sync({alter:true});
 
+/*
 async function criarRuas() {
     try {
         const ArrayRuas = [
-            { NOME_RUA: 'Rua Martins'},
-            { NOME_RUA: 'Rua Francisco Alves'},
+            { NOME_RUA: 'Martins'},
+            { NOME_RUA: 'Francisco Alves'},
         ];
 
         const novasRuas = await Ruas.bulkCreate(ArrayRuas);
@@ -43,4 +43,6 @@ async function criarRuas() {
 
 criarRuas();
 
+Ruas.sync({alter:true});
+*/
 module.exports = Ruas;
